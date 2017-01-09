@@ -43,8 +43,8 @@ SRC := $(shell find "src" -type f -name '*.f*' \
 			    -not -path "src/legacy/*" \
 				-not -path "src/tests/*" \
 				-not -path "src/third_party/FLAP/*" \
-				-not -path '*/\.*' \
-				-not -path 'src/wlcsim/wlcsim_brad.f03')
+				-not -path '*/\.*' )
+#				-not -path 'src/wlcsim/wlcsim_brad.f95')
 # -not -path 'src/wlcsim/wlcsim_quinn.f03' -not -path 'src/wlcsim/MCparrll_mpi.f90' -not -path 'src/wlcsim/restart_mpi.f90')
 
 # takes each *.f* -> *.o

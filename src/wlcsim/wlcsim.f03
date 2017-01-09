@@ -56,10 +56,15 @@ program main
 
     call setup_runtime_floats()
 
+#if MPI_VERSION
+    call init_MPI(wlc_d)
+#endif
+
     call get_input_from_file(infile, wlc_p, wlc_d)
+
     call initialize_wlcsim_data(wlc_d, wlc_p)
 
-    call save_parameters(wlc_p, trim(adjustL(outfile)) // 'params')
+    call save_parameters(wlc_p, outfile)
     i = 0
     call save_simulation_state(i, wlc_d, wlc_p, outfile)
 
@@ -71,8 +76,10 @@ program main
         enddo
     case ('brad', 'parallel temper discrete parameters', 'twist')
         do i=1,wlc_p%numSavePoints
-            !call wlcsim_brad(i, wlc_d, wlc_p)
-            call save_simulation_state(i, wlc_d, wlc_p, outfile)
+           call wlcsim_brad(wlc_d,wlc_p)
+           call save_simulation_state(i, wlc_d, wlc_p, outfile)
+           print *, 'i is', i
+           print *, '*******************'
         enddo
     case ('bruno', 'brownian dynamics')
         do i=1,wlc_p%numSavePoints

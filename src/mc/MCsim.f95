@@ -68,12 +68,14 @@ SUBROUTINE MCsim(mc,md,NSTEP)
     XIU=  PARA(7)
     LHC=  PARA(9)
     VHC=  PARA(10)
+
 ! -------------------------------------
 !
 !   Begin Monte Carlo simulation
 !
 ! -------------------------------------
     ISTEP=1
+
     DO WHILE (ISTEP.LE.NSTEP)
 
        DO MCTYPE=1,mc%moveTypes
@@ -208,6 +210,7 @@ SUBROUTINE MCsim(mc,md,NSTEP)
           call random_number(urnd,rand_stat)
           TEST=urnd(1)
           if (TEST.LE.PROB) then
+
              if(MCTYPE.EQ.7) then
                  DO I=IT1,IT2
                       md%AB(I)=md%ABP(I)
@@ -265,14 +268,14 @@ SUBROUTINE MCsim(mc,md,NSTEP)
              endif
              md%WR=WRP
              md%NCross=md%NCrossP
-             md%Cross=md%CrossP
+             md%Cross=md%CrossP  !this little bastard is causing a seg fault!
              md%SUCCESS(MCTYPE)=md%SUCCESS(MCTYPE)+1
           endif
 !   Adapt the amplitude of step every NADAPT steps
 
           !amplitude and window adaptations
           if (mod(ISTEP,mc%NADAPT(MCTYPE)).EQ.0) then  ! Addapt ever NADAPT moves
-             call mc_adapt(mc,MCTYPE)
+             call mc_adapt(mc,md,MCTYPE)
 
              ! move each chain back if drifted though repeated BC
              if (mc%recenter_on) then
