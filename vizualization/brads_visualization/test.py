@@ -11,7 +11,7 @@ output_folder = 'pdb/test'
 #define topology ('linear' or 'circular')
 topo = 'circular'
 #define index range for coordinate files
-file_inds = range(1,101)
+file_inds = range(1,40)
 os.system('rm -r %s/*' %output_folder)
 for ind in file_inds:
     #load file
